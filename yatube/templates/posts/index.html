@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Последние обновления на сайте
+{% endblock %}
+
+{% block content %}
+  <h1>Последние обновления на сайте</h1>
+  
+  <!-- Форма поиска -->
+  <form method="get" action="{% url 'posts:index' %}" class="mb-4">
+    <div class="input-group">
+      <input type="text" name="keyword" value="{{ keyword }}" placeholder="Введите слово для поиска..." class="form-control">
+      <button type="submit" class="btn btn-outline-secondary">Искать</button>
+    </div>
+  </form>
+
+  <!-- Список постов -->
+  {% for post in page_obj %}
+    <article class="mb-3">
+      <ul class="list-unstyled">
+        <li>
+          Автор: <a href="{% url 'posts:profile' post.author.username %}"><strong>{{ post.author.get_full_name }}</strong></a>
+        </li>
+        <li>
+          Дата публикации: <em>{{ post.pub_date|date:"d E Y" }}</em>
+        </li>
+        {% if post.group %}
+          <li>
+            Группа: <a href="{% url 'posts:group_list' post.group.slug %}">{{ post.group.title }}</a>
+          </li>
+        {% endif %}
+      </ul>      
+      <p>{{ post.text }}</p>
+      <a href="{% url 'posts:post_detail' post.id %}">подробнее</a>
+      
+      {# Проверяем, есть ли у поста группа #}
+      {% if post.group %}
+        <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+      {% endif %}
+    </article>
+    {% if not forloop.last %}<hr>{% endif %}
+  {% empty %}
+    <p>Нет подходящих постов.</p>
+  {% endfor %}
+
+  <!-- Паджинатор -->
+  {% include 'posts/includes/paginator.html' %}
+{% endblock %}
