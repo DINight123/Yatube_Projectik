@@ -962,6 +962,23 @@ python manage.py runserver
 **Присоединяйся и стань частью увлекательного мира блогинга на Yatube!**
 <<<<<<< HEAD
 
+# Все тесты
+python manage.py test
+
+# Тесты приложения reviews
+python manage.py test reviews
+
+# Подробный вывод
+python manage.py test -v 2
+
+# Конкретный тестовый файл
+python manage.py test reviews.tests.test_models
+python manage.py test reviews.tests.test_forms
+python manage.py test reviews.tests.test_views
+python manage.py test reviews.tests.test_search
+python manage.py test reviews.tests.test_paginator
+python manage.py test reviews.tests.test_urls
+
 API доступен тут ⭐
 http://127.0.0.1:8000/api/v1/
 
